@@ -2,20 +2,27 @@ const express = require("express");
 const morgan = require("morgan");
 
 const server = express();
+const { logger } = require("./middleware/middleware");
 // remember express by default cannot parse JSON in request bodies
 server.use(express.json());
+
 //morgan is a commercial middleware that creates a console log
 //that tells us about a request object
-server.use(morgan("dev"));
+// server.use(morgan("dev"));
 
 //this is a custom middleware that does pretty much
 //what morgan does
-server.use((req, res, next) => {
-  console.log("the path is: ", req.path);
-  next();
-});
+// server.use((req, res, next) => {
+//   console.log("the path is: ", req.path);
+//   next();
+// });
+
+//we will use our own custom middlewares in a different file
+//for this project
 
 // global middlewares and the user's router need to be connected here
+
+server.use(logger);
 
 server.get("/", (req, res) => {
   // throw new Error("DISASTER ERROR"); //use this to test error catches
